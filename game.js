@@ -24,15 +24,15 @@ const config = {
   
   function preload() {
     // Load assets like images and spritesheets
-    this.load.image('sky', 'assets/sky.png');         // Background
+    this.load.image('sky', 'assets/sky.png');         // Background image
     this.load.image('ground', 'assets/platform.png'); // Platforms
     this.load.spritesheet('mario', 'assets/mario.png', { frameWidth: 32, frameHeight: 48 }); // Mario sprite
   }
   
   function create() {
-    // Add a background that covers the entire canvas
-    let background = this.add.image(400, 300, 'sky');
-    background.setDisplaySize(this.sys.canvas.width, this.sys.canvas.height); // Resize background to fit canvas
+    // Stretch the background to fit the canvas size, ensuring it scales properly
+    let background = this.add.image(0, 0, 'sky').setOrigin(0, 0); 
+    background.setDisplaySize(this.sys.canvas.width, this.sys.canvas.height); // Stretch background
   
     // Create a static group of platforms
     platforms = this.physics.add.staticGroup();
