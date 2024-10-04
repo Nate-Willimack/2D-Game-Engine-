@@ -1,0 +1,15 @@
+{
+  "name": "2d-game-engine-mario",
+  "version": "1.0.0",
+  "description": "A 2D Game Engine using Java - Super Mario",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "phaser": "^3.85.2"
+  }
+}
