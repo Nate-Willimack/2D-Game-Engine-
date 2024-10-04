@@ -3,16 +3,16 @@ const config = {
     width: 800,
     height: 600,
     physics: {
-      default: 'arcade',
-      arcade: {
-        gravity: { y: 300 },
-        debug: false
-      }
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 300 },
+            debug: false
+        }
     },
     scene: {
-      preload: preload,
-      create: create,
-      update: update
+        preload: preload,
+        create: create,
+        update: update
     }
 };
 
@@ -23,10 +23,15 @@ let platforms;
 let cursors;
 
 function preload() {
-    // Load assets
+    // Load assets with proper file paths
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.spritesheet('mario', 'assets/mario.png', { frameWidth: 32, frameHeight: 48 });
+
+    // Debugging asset loading
+    this.load.on('complete', () => {
+        console.log('Assets loaded successfully!');
+    });
 }
 
 function create() {
@@ -41,12 +46,16 @@ function create() {
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
 
-    // Add player sprite
+    // Create Mario as a static sprite (testing if Mario appears without physics)
+    player = this.add.sprite(100, 450, 'mario');
+    console.log('Mario should appear on screen.');
+
+    // Adding player physics after verifying sprite loads
     player = this.physics.add.sprite(100, 450, 'mario');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
 
-    // Create player animations
+    // Create animations for Mario
     this.anims.create({
         key: 'left',
         frames: this.anims.generateFrameNumbers('mario', { start: 0, end: 3 }),
