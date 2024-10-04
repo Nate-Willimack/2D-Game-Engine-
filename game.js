@@ -23,29 +23,30 @@ const config = {
   let cursors;
   
   function preload() {
-    //images
-    this.load.image('sky', 'assets/sky.png');
-    this.load.image('ground', 'assets/platform.png');
-    this.load.spritesheet('mario', 'assets/mario.png', { frameWidth: 32, frameHeight: 48 });
+    // Load assets like images and spritesheets
+    this.load.image('sky', 'assets/sky.png');         // Background
+    this.load.image('ground', 'assets/platform.png'); // Platforms
+    this.load.spritesheet('mario', 'assets/mario.png', { frameWidth: 32, frameHeight: 48 }); // Mario sprite
   }
   
   function create() {
-    //background
-    this.add.image(400, 300, 'sky');
+    // Add a background that covers the entire canvas
+    let background = this.add.image(400, 300, 'sky');
+    background.setDisplaySize(this.sys.canvas.width, this.sys.canvas.height); // Resize background to fit canvas
   
-    //platforms
+    // Create a static group of platforms
     platforms = this.physics.add.staticGroup();
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-    platforms.create(600, 400, 'ground');
+    platforms.create(400, 568, 'ground').setScale(2).refreshBody(); // Ground platform
+    platforms.create(600, 400, 'ground'); // Mid-air platforms
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
   
-    //Mario player
+    // Create Mario player
     player = this.physics.add.sprite(100, 450, 'mario');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
   
-    //player animations
+    // Add player animations
     this.anims.create({
       key: 'left',
       frames: this.anims.generateFrameNumbers('mario', { start: 0, end: 3 }),
@@ -66,14 +67,22 @@ const config = {
       repeat: -1
     });
   
-    //player collision with platforms
+    // Enable player collision with platforms
     this.physics.add.collider(player, platforms);
   
-    //keyboard controls
+    // Setup keyboard controls
     cursors = this.input.keyboard.createCursorKeys();
+  
+    // Add a listener to start the AudioContext after user interaction
+    this.input.on('pointerdown', () => {
+      if (this.sound.context.state === 'suspended') {
+        this.sound.context.resume();
+      }
+    });
   }
   
   function update() {
+    // Movement controls
     if (cursors.left.isDown) {
       player.setVelocityX(-160);
       player.anims.play('left', true);
@@ -85,6 +94,7 @@ const config = {
       player.anims.play('turn');
     }
   
+    // Jumping
     if (cursors.up.isDown && player.body.touching.down) {
       player.setVelocityY(-330);
     }
