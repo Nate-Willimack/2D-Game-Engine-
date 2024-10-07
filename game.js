@@ -6,7 +6,7 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: false
+            debug: true  // Enable debugging to visualize hitboxes and see if elements are rendered correctly
         }
     },
     scene: {
@@ -28,7 +28,7 @@ function preload() {
     this.load.image('ground', 'assets/platform.png');
     this.load.spritesheet('mario', 'assets/mario.png', { frameWidth: 32, frameHeight: 48 });
 
-    // Debugging asset loading
+    // Log to verify if assets are loading
     this.load.on('complete', () => {
         console.log('Assets loaded successfully!');
     });
@@ -46,14 +46,11 @@ function create() {
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
 
-    // Create Mario as a static sprite (testing if Mario appears without physics)
-    player = this.add.sprite(100, 450, 'mario');
-    console.log('Mario should appear on screen.');
-
-    // Adding player physics after verifying sprite loads
+    // Create Mario and log coordinates for debugging
     player = this.physics.add.sprite(100, 450, 'mario');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
+    console.log('Mario position:', player.x, player.y);  // Log Mario's position
 
     // Create animations for Mario
     this.anims.create({
