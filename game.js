@@ -26,7 +26,9 @@ function preload() {
     // Load assets with proper file paths
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
-    this.load.spritesheet('mario', 'assets/mario.png', { frameWidth: 32, frameHeight: 48 });
+    
+    // Load Mario as a single image (not a spritesheet for now)
+    this.load.image('mario', 'assets/mario.png');
 
     // Log to verify if assets are loading
     this.load.on('complete', () => {
@@ -46,38 +48,18 @@ function create() {
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
 
-    // Create Mario and log coordinates for debugging
-    player = this.physics.add.sprite(100, 450, 'mario');
+    // Load Mario as a static image for now
+    player = this.physics.add.image(100, 450, 'mario');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     console.log('Mario position:', player.x, player.y);  // Log Mario's position
-
-    // Create animations for Mario
-    this.anims.create({
-        key: 'left',
-        frames: this.anims.generateFrameNumbers('mario', { start: 0, end: 3 }),
-        frameRate: 10,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'turn',
-        frames: [{ key: 'mario', frame: 4 }],
-        frameRate: 20
-    });
-
-    this.anims.create({
-        key: 'right',
-        frames: this.anims.generateFrameNumbers('mario', { start: 5, end: 8 }),
-        frameRate: 10,
-        repeat: -1
-    });
 
     // Enable collision between player and platforms
     this.physics.add.collider(player, platforms);
 
     // Add keyboard controls
     cursors = this.input.keyboard.createCursorKeys();
+}
 }
 
 function update() {
